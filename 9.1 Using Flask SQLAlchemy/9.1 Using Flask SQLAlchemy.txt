@@ -1,0 +1,65 @@
+-> Database Management Using Flask-SQLAlchemy Lesson  
+   -> Using Flask SQLAlchemy  
+   -> 13 min to complete  
+   -> By Brandon Gigous  
+
+-> Introduction  
+   -> This lesson explains the role of databases in Flask applications  
+   -> Learn about SQLAlchemy, Flask-SQLAlchemy, and their integration into Flask projects  
+   -> Includes step-by-step guidance for installing Flask-SQLAlchemy  
+
+-> Why Use a Database?  
+   -> Modern web applications often rely on databases to store data in an organised manner  
+   -> Databases allow efficient handling of large and growing data sets, supporting specific retrieval requests  
+   -> They facilitate key functions like user authentication, presenting relevant content, and maintaining server records  
+   -> Examples include retrieving user credentials for login verification, fetching product listings with prices, or accessing stored images by criteria  
+
+-> Brief Introduction to SQL and Relational Databases  
+   -> Databases are categorised into relational (SQL) and document-oriented (NoSQL) types  
+   -> SQL stands for Structured Query Language, the standard language for querying relational databases  
+   -> Relational databases organise data in tables, each modelling a specific entity in the system's domain  
+   -> Tables comprise fixed columns that define the type of data and rows that dynamically grow as data is added  
+   -> For example, a pet store's database might include tables such as `Products`, `Customers`, and `Pet Categories`  
+
+-> What is SQLAlchemy?  
+   -> SQLAlchemy is a Python SQL toolkit and Object Relational Mapper (ORM)  
+   -> Enables developers to interact with databases using Python objects instead of raw SQL queries or table manipulations  
+   -> Offers flexibility and supports multiple database backends while providing access to low-level SQL features  
+   -> Simplifies complex operations and enhances the developer experience  
+
+-> What is Flask-SQLAlchemy?  
+   -> Flask-SQLAlchemy is an extension that integrates SQLAlchemy with Flask  
+   -> Reduces the complexity of setting up SQLAlchemy in Flask projects by handling configuration and connection management  
+   -> Offers an easy-to-use interface for basic operations while allowing advanced customisation with SQLAlchemy directly  
+
+-> How to Install SQLAlchemy for Python and Flask  
+   -> Flask-SQLAlchemy can be installed using pip:  
+      -> Command: `(env) $ pip install flask-sqlalchemy`  
+
+-> Specifying a Database  
+   -> Flask-SQLAlchemy uses URLs to define database connections  
+   -> SQLite database example:  
+      -> For Linux/MacOS: `sqlite:////absolute/path/to/database`  
+      -> For Windows: `sqlite:///c:/absolute/path/to/database`  
+   -> Configuration in Flask:  
+      ```python  
+      import os  
+      from flask_sqlalchemy import SQLAlchemy  
+
+      basedir = os.path.abspath(os.path.dirname(__file__))  
+      app = Flask(__name__)  
+      app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')  
+      app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
+      db = SQLAlchemy(app)  
+      ```  
+   -> `SQLALCHEMY_DATABASE_URI` specifies the path to the database file  
+   -> `SQLALCHEMY_TRACK_MODIFICATIONS` is disabled to save memory and prevent unnecessary tracking  
+   -> If the specified database file does not exist, SQLAlchemy will automatically create it  
+
+-> Summary: What is Flask-SQLAlchemy and How to Install SQLAlchemy?  
+   -> SQLAlchemy is a Python toolkit and ORM for working with relational databases  
+   -> Relational databases use tables to store data and are queried using SQL  
+   -> SQLAlchemy simplifies database interactions by enabling operations through Python objects  
+   -> Flask-SQLAlchemy streamlines the integration of SQLAlchemy into Flask projects, handling configuration and connections  
+   -> Installation is straightforward using pip: `(env) $ pip install flask-sqlalchemy`  
+   -> Configuration involves specifying the database URL and disabling unnecessary tracking features  
