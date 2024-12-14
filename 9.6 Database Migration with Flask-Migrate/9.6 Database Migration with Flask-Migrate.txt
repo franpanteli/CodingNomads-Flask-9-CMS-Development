@@ -1,6 +1,5 @@
 -> Database Management using Flask-SQLAlchemy Lesson  
-   -> Database Migration with Flask-Migrate  
-   -> 11 min to complete á By Brandon Gigous  
+   -> Database Migration with Flask-Migrate    
 
 -> Introduction  
    -> So far, you've worked with creating database models, generating tables, inserting data, and querying your database  
@@ -43,7 +42,7 @@
      -> Adding or removing columns from existing tables  
      -> Renaming or modifying table names  
      -> Adding new models or introducing relationships between existing models  
-   -> In essence, if your data models change, itÕs time to run a migration  
+   -> In essence, if your data models change, it's time to run a migration  
 
 -> Database Migration Scripts  
    -> Flask-Migrate generates Alembic migration scripts when you run the `flask db migrate` command  
@@ -65,8 +64,8 @@
         ```bash  
         flask db migrate  
         ```  
-     3. Review the generated migration script to ensure it accurately reflects the changes youÕve made in your models (sometimes automatic migrations can miss minor details or misinterpret changes)  
-     4. Add the migration script to source control (Git), so itÕs versioned alongside your application code  
+     3. Review the generated migration script to ensure it accurately reflects the changes you've made in your models (sometimes automatic migrations can miss minor details or misinterpret changes)  
+     4. Add the migration script to source control (Git), so it's versioned alongside your application code  
      5. Finally, apply the migration with the following command:  
         ```bash  
         flask db upgrade  
@@ -74,9 +73,9 @@
    -> This will apply the migration to your database, updating the schema without affecting the existing data  
 
 -> Important Warning  
-   -> Automatic migrations are not perfectÑsometimes, they might not fully capture the changes you made to your models  
-   -> For example, if you rename a column, Flask-Migrate might treat it as if youÕve deleted the old column and added a new one, which could result in data loss  
-   -> ItÕs essential to review the migration script carefully before applying it, especially when renaming or deleting fields, to avoid losing data  
+   -> Automatic migrations are not perfect'sometimes, they might not fully capture the changes you made to your models  
+   -> For example, if you rename a column, Flask-Migrate might treat it as if you've deleted the old column and added a new one, which could result in data loss  
+   -> It's essential to review the migration script carefully before applying it, especially when renaming or deleting fields, to avoid losing data  
 
 -> Upgrade Your Database  
    -> After generating the migration script and reviewing it, you can upgrade your database to the new schema by running:  

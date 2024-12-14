@@ -1,7 +1,5 @@
 -> Database Management Using Flask-SQLAlchemy Lesson  
    -> Create Models and Relationships with Flask-SQLAlchemy  
-   -> 14 min to complete  
-   -> By Brandon Gigous  
 
 -> Contents  
    -> Introduction  

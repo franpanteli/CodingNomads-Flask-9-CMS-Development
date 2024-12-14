@@ -1,7 +1,5 @@
 -> Database Management Using Flask-SQLAlchemy Lesson  
    -> Using Flask SQLAlchemy  
-   -> 13 min to complete  
-   -> By Brandon Gigous  
 
 -> Introduction  
    -> This lesson explains the role of databases in Flask applications  

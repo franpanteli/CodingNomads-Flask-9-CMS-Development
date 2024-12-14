@@ -1,13 +1,12 @@
 -> Database Management using Flask-SQLAlchemy Lesson
    -> Querying the Database with Flask-SQLAlchemy and the Flask Shell
-   -> 24 min to complete á By Brandon Gigous
 
 -> Introduction
    -> Flask SQLAlchemy provides a convenient way to manage databases and query models
    -> Flask Shell is used to interact with Flask applications through a Python interpreter
 
 -> Flask SQLAlchemy and Flask Shell
-   -> Flask Shell allows you to interact with the Flask appÕs context via a Python shell
+   -> Flask Shell allows you to interact with the Flask app's context via a Python shell
    -> To start Flask Shell:
       -> Set the environment variable to `FLASK_APP=hello.py`
       -> In the terminal, type `flask shell`
@@ -115,7 +114,7 @@
    -> This eliminates the need to manually import models each time you start a new shell session
 
 -> Summary
-   -> YouÕve learned how to create and manage tables, insert, modify, and delete data, and query the database
+   -> You've learned how to create and manage tables, insert, modify, and delete data, and query the database
    -> Flask-SQLAlchemy simplifies interactions with the database and improves efficiency in querying data
    -> Key operations:
       -> `db.create_all()` to create tables

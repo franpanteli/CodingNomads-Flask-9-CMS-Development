@@ -1,6 +1,5 @@
 -> Database Management using Flask-SQLAlchemy Lesson  
    -> Lab: Adding Relationships  
-   -> 3 min to complete á By Brandon Gigous  
 
 -> Before proceeding with this lab, ensure you have cloned the Python Flask labs project and opened it in VS Code  
    -> If not, clone the project from GitHub and open it in your preferred code editor (VS Code recommended)  
@@ -10,18 +9,18 @@
    -> 2. Complete all exercises provided in the folder  
    -> 3. If you're subscribed to our membership or mentorship programs, feel free to reach out on Discord for a review or help with any issues you face  
    -> 4. Once you've completed the labs, make sure to push your work to GitHub  
-      -> This step is easy to overlook, but itÕs one of the most important parts of the process  
+      -> This step is easy to overlook, but it's one of the most important parts of the process  
       -> Git and GitHub are the standard tools for version control and collaboration in software development  
       -> Pushing your work to GitHub not only backs it up but also demonstrates your progress and allows others to review your code  
-      -> This practice is essential to building your professional portfolio and ensuring youÕre prepared for real-world development workflows  
-      -> Be consistent in pushing your code to GitHub Ð this is how you show that youÕve worked on the project and track your progress over time  
+      -> This practice is essential to building your professional portfolio and ensuring you're prepared for real-world development workflows  
+      -> Be consistent in pushing your code to GitHub ' this is how you show that you've worked on the project and track your progress over time  
       -> GitHub contributions (those little green squares) will show you have been actively coding and learning  
 
 -> A friendly reminder before you move on:  
    -> Did you run, review, and complete the lab?  
    -> Did you push your work to GitHub?  
-   -> If the answer to either of these questions is "no", youÕre at risk of skipping crucial steps in the learning process  
-   -> ItÕs important to not cut corners as these habits will affect your ability to work on larger projects down the line  
+   -> If the answer to either of these questions is "no", you're at risk of skipping crucial steps in the learning process  
+   -> It's important to not cut corners as these habits will affect your ability to work on larger projects down the line  
    -> Completing labs is a requirement for receiving your course certificate, which serves as proof of your knowledge and skills  
    -> Building consistent habits of completing tasks and pushing work to GitHub will help you become a more effective developer in the long run  
 

@@ -1,7 +1,5 @@
 -> Database Management using Flask-SQLAlchemy Lesson  
    -> Running a Flask SQLAlchemy Query in Jinja Template Views  
-   -> 8 min to complete  
-   -> By Brandon Gigous  
 
 -> Introduction  
    -> This lesson explores how to execute SQLAlchemy queries within view functions in Flask  
@@ -19,14 +17,14 @@
       -> Registering users  
       -> Verifying credentials  
       -> Storing user-generated content  
-   -> All of these operations involve querying and manipulating the database, which youÕll learn how to do with SQLAlchemy and Flask  
+   -> All of these operations involve querying and manipulating the database, which you'll learn how to do with SQLAlchemy and Flask  
 
 -> Add Users From Index Page  
    -> The `index` page demonstrates how to add users to the database via a form submission  
    -> Upon submitting a name:  
       -> The app checks if the username already exists in the database  
       -> If the username exists, a session variable is updated to reflect that the user is known  
-      -> If the username doesnÕt exist, a new `User` object is created and added to the database  
+      -> If the username doesn't exist, a new `User` object is created and added to the database  
    -> The code handles both adding new users and recognising returning users  
    -> Example Code:  
      ```python  
@@ -51,8 +49,8 @@
      ```  
    -> In this example, when a user submits their name, the application checks the database for an existing user and updates the session accordingly  
 
--> Jinja Template With A Customized Greeting  
-   -> The Jinja template dynamically displays a personalized greeting based on whether the user is known or not  
+-> Jinja Template With A Customised Greeting  
+   -> The Jinja template dynamically displays a personalised greeting based on whether the user is known or not  
    -> If the user is new, they will be greeted with a message like "Nice to meet you!"  
    -> If the user has visited before, they will see a message like "Enjoy your stay"  
    -> The template integrates with the form, updating dynamically based on the session data  
