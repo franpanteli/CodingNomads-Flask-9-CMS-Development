@@ -1,0 +1,59 @@
+-> Adding and Downgrading an Age Column in the User Model
+    -> Goal: Add the Age Column to the User Model
+        -> First, you need to modify the `User` model in your Flask application to include a new column called `age`
+        -> This involves adding the `age` attribute as a column in your model class (e.g., `db.Column(db.Integer)` for an integer column to store age)
+        -> After adding the column definition in the model, you need to save the changes to the Python file
+
+    -> Create a Database Migration
+        -> After modifying the model, you need to generate a migration to update the database schema
+        -> Migrations in Flask (with SQLAlchemy and Flask-Migrate) track changes to the database schema and ensure your database structure is updated accordingly
+        -> Use the command `flask db migrate -m "Add age column to user model"` to create a migration script
+        -> The `-m` flag allows you to add a message to describe the change (e.g., "Add age column to user model")
+        -> The migration script will contain instructions to alter the database schema and add the `age` column to the `User` table
+
+    -> Verifying the Migration Script
+        -> Open the generated migration script (found in the `migrations/versions` folder) to verify that it correctly reflects the changes to the user model
+        -> The script should contain an `add_column` operation for the `age` column and the corresponding datatype (e.g., `Integer`)
+        -> Verify that the migration does not contain any unintended changes that might affect other columns or tables in your database
+
+    -> Performing the Upgrade
+        -> Once you have verified the migration script, you can apply it to the database using the `flask db upgrade` command
+        -> This will execute the migration and modify the database schema to add the `age` column to the `User` table
+        -> It is important to run the `flask db upgrade` command in the appropriate environment (development or production) to ensure the database is updated with the new column
+        -> Flask-Migrate will automatically handle any necessary SQL operations to add the new column to the database, while ensuring existing data remains intact
+
+    -> Testing the Migration
+        -> After running the upgrade, it is essential to test that the `age` column was added correctly and that the database still functions as expected
+        -> Open a Flask shell using the command `flask shell` to interact with the database in a Python environment
+        -> In the Flask shell, test if the `User` model can successfully retrieve a user from the database:
+            ```python
+            user = User.query.first()
+            print(user.age)
+            ```
+        -> If the `age` column was added correctly, you should be able to retrieve the user without errors, and the `age` attribute will return the correct value (or `None` if no value has been set yet)
+        -> If you encounter errors during retrieval or data manipulation, it suggests that there may be issues with the migration or the way the column was added
+
+    -> Handling the Removal of the Age Column (Downgrading)
+        -> Scenario: After the migration, you decide the `age` column is unnecessary and want to remove it
+        -> If the changes have not been pushed to a production environment (e.g., in version control), you can safely run the `flask db downgrade` command to undo the migration
+        -> The `flask db downgrade` command reverts the database schema to the previous state, removing any changes made in the latest migration (in this case, removing the `age` column)
+        -> The downgrade operation will reverse the `add_column` operation from the migration, ensuring the `age` column is removed from the `User` table
+
+    -> Reverting the Code to the Previous Commit
+        -> After downgrading the database, you must also update your code to reflect the change (removing the `age` column from the `User` model)
+        -> Use version control (e.g., Git) to reset the code to the commit before the `age` column was added
+        -> Running `git reset --hard <previous_commit_hash>` will revert the code back to the previous state, removing any changes to the `User` model
+        -> This ensures the code is in sync with the database schema, as the column is now removed from both the model and the database
+        -> Resetting the code to a previous commit also helps avoid inconsistencies and potential errors caused by uncommitted or unwanted changes
+
+    -> Continuing with the Project After Removing the Age Column
+        -> With the `age` column now removed from both the database and the code, you can continue developing your project without the column
+        -> This process of adding and removing columns is typical during the development phase, where you may experiment with different database models
+        -> The ability to downgrade the database schema using Flask-Migrate and Git for version control gives you flexibility and safety when making changes to your application
+        -> Always ensure that migrations are applied carefully and that the database is tested after any schema changes to prevent issues with data integrity
+
+    -> Key Concepts Recap
+        -> **Migrations**: Flask-Migrate handles changes to the database schema, allowing you to create, apply, and reverse changes like adding or removing columns
+        -> **Database Upgrade**: The `flask db upgrade` command applies migrations to the database, altering the schema to match the model changes
+        -> **Database Downgrade**: The `flask db downgrade` command reverts the database to a previous state, removing changes from the last migration
+        -> **Version Control**: Git is used to manage and revert code changes to ensure your codebase and database schema are synchronised

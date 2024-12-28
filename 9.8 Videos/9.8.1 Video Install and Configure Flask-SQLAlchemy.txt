@@ -1,0 +1,159 @@
+-> Installing and Configuring SQLAlchemy in Flask
+    -> Installing Flask-SQLAlchemy Extension
+        -> Flask-SQLAlchemy is an extension that simplifies integrating SQLAlchemy with Flask
+        -> Install Flask-SQLAlchemy via pip:
+            ```bash
+            pip install flask-sqlalchemy
+            ```
+        -> The OS module is also required for handling file paths for the database
+        -> Flask-SQLAlchemy abstracts many of SQLAlchemy’s complexities to make it easier to interact with databases in Flask
+        -> Flask-SQLAlchemy also supports various databases such as SQLite, PostgreSQL, and MySQL, making it a versatile option for your Flask projects
+
+    -> Setting Up the Database Location
+        -> SQLAlchemy needs to know where the database file is located
+        -> Flask provides a configuration system to manage settings, including the location of the database
+        -> The database file should be placed in the Flask project directory for simplicity, but it can be anywhere on your system
+        -> Use the OS path functions to dynamically capture the file path and store it in your Flask application settings
+        -> Set the path of the database file in the `SQLALCHEMY_DATABASE_URI` configuration variable in your Flask app
+        -> Example:
+            ```python
+            SQLALCHEMY_DATABASE_URI = 'sqlite:///path_to_your_database.db'
+            ```
+        -> This tells SQLAlchemy to use SQLite, and the path points to the database file on your system
+        -> The database will be created as a `.db` file if it doesn't exist
+        -> If you're using a database like PostgreSQL or MySQL, the URI will look something like this:
+            ```python
+            SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost/database_name'
+            ```
+
+    -> Disabling Modification Tracking
+        -> Flask-SQLAlchemy tracks modifications to objects (e.g., models) in order to emit signals
+        -> This behaviour can be disabled to reduce overhead if you don't need these signals
+        -> Add this configuration line to disable modification tracking:
+            ```python
+            SQLALCHEMY_TRACK_MODIFICATIONS = False
+            ```
+
+-> Defining Database Models with SQLAlchemy
+
+    -> What Are Models?
+        -> In SQLAlchemy, a model is a Python class that represents a table in your database
+        -> Each attribute of the class represents a column in the database table
+        -> Models are typically defined as subclasses of `db.Model`, where `db` is the instance of Flask-SQLAlchemy
+
+    -> Example: Defining a User Model
+        -> A typical model will have an `id`, `username`, and `email`, among other fields
+        -> The `id` column is typically set as the primary key
+        -> The `username` and `email` columns may have unique constraints and should not be nullable
+        -> Example of defining a `User` model:
+            ```python
+            class User(db.Model):
+                id = db.Column(db.Integer, primary_key=True)  # Primary key column
+                username = db.Column(db.String(100), unique=True, nullable=False)  # Unique, non-nullable column
+                email = db.Column(db.String(100), unique=True, nullable=False)  # Unique, non-nullable column
+            ```
+
+    -> Primary Key and Indexing
+        -> A primary key uniquely identifies each record in the table and ensures that the database can efficiently access and manage records
+        -> The primary key is usually defined in the model class using `primary_key=True`
+        -> SQLAlchemy will automatically index the primary key column for fast lookups
+
+    -> Setting Constraints on Columns
+        -> Columns in SQLAlchemy can have constraints such as `unique=True` (ensures no duplicates), `nullable=False` (ensures no null values), and `default=value` (sets a default value if none is provided)
+        -> Example of a column with constraints:
+            ```python
+            username = db.Column(db.String(100), unique=True, nullable=False)
+            ```
+        -> These constraints ensure that your database enforces the desired structure and integrity
+
+    -> Defining Relationships Between Models
+        -> Relationships represent connections between models and allow you to link data across tables
+        -> In this example, a `User` can have one `Role`, and a `Role` can be associated with multiple `Users`
+        -> This can be set up using `db.relationship()` and `db.ForeignKey()`
+
+    -> Example: Role Model with a Relationship to User
+        -> Define the `Role` model with a back reference to the `User` model:
+            ```python
+            class Role(db.Model):
+                id = db.Column(db.Integer, primary_key=True)
+                name = db.Column(db.String(100), unique=True)
+                users = db.relationship('User', backref='role', lasy=True)
+            ```
+
+        -> In this example:
+            - `users` defines a one-to-many relationship from `Role` to `User`
+            - `backref='role'` in the `User` model will allow you to access the role of a user directly as `user.role`
+            - The `lasy=True` option makes SQLAlchemy lasy-load the users when the role is queried
+
+        -> In the `User` model, define the foreign key to link each user to a role:
+            ```python
+            class User(db.Model):
+                id = db.Column(db.Integer, primary_key=True)
+                role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
+            ```
+
+-> Creating the Database Using Flask Shell
+
+    -> Setting Up the Flask Shell
+        -> The Flask shell allows you to interact with your Flask app’s context and perform database operations interactively
+        -> To start the Flask shell, use the following command in the terminal:
+            ```bash
+            flask shell
+            ```
+
+    -> Importing the Database Instance
+        -> Within the Flask shell session, import the `db` instance from your application to interact with the database
+        -> Example:
+            ```python
+            from yourapp import db
+            ```
+
+    -> Creating the Tables
+        -> Once your models are defined, use the `create_all()` method to generate the tables in the database
+        -> This method creates the tables based on the models you’ve defined (such as `User` and `Role`)
+        -> Example:
+            ```python
+            db.create_all()
+            ```
+
+    -> Verifying Database Creation
+        -> After running `create_all()`, you should see the tables created in the database file specified in your configuration
+        -> For SQLite, this will create a `.db` file in your project directory (e.g., `app.db`)
+        -> You can use database management tools like DB Browser for SQLite to inspect the created database
+
+-> Storing Configuration in `config.py`
+
+    -> Why Use `config.py`?
+        -> Storing configuration settings in a separate `config.py` file helps keep your application organised and flexible
+        -> This centralises configuration management and makes it easier to adjust settings without changing the main application code
+
+    -> Creating a `config.py` File
+        -> In the `config.py` file, define a `Config` class that holds your application’s settings, such as the database URI
+        -> Example:
+            ```python
+            class Config:
+                SQLALCHEMY_DATABASE_URI = 'sqlite:///path_to_your_database.db'
+                SQLALCHEMY_TRACK_MODIFICATIONS = False
+            ```
+
+    -> Using the Config in Your Flask App
+        -> Import and use the `Config` class in your Flask application to apply the configuration settings
+        -> Example:
+            ```python
+            from flask import Flask
+            from config import Config
+
+            app = Flask(__name__)
+            app.config.from_object(Config)
+            ```
+
+    -> Why Use `from_object`?
+        -> The `from_object()` method loads configuration settings from a Python object (in this case, the `Config` class)
+        -> This approach is cleaner and keeps the app's configuration organised
+
+-> Conclusion
+    -> In this video, you’ve learned how to install and configure SQLAlchemy in Flask
+    -> You’ve defined database models and established relationships between them
+    -> You’ve also used the Flask shell to create the database and tables
+    -> By storing configuration in a separate `config.py` file, you can maintain a cleaner, more organised codebase
+    -> With these fundamental steps, you are well on your way to building dynamic, data-driven applications with Flask and SQLAlchemy

@@ -1,0 +1,94 @@
+-> Adding a User to the Database and Personalising the User Experience
+    -> Objective Overview
+        -> The goal is to store usernames in the database so that the application can keep track of whether a user has entered their name before
+        -> By doing this, the app can provide a personalised experience by greeting returning users differently from new users
+        -> This personalised greeting enhances the user experience and makes the interaction with the app feel more dynamic and tailored
+
+    -> Capturing User Input from a Form
+        -> The user enters their name through a form on the front end (HTML form), which sends the input to the server via a POST request
+        -> In Flask, forms can be processed using the `request` object to capture the submitted data
+        -> The form data (user's name) is sent as part of the POST request and is accessible on the backend in the route handling the request
+        -> Example of capturing input:
+            ```python
+            username = request.form.get('username')
+            ```
+
+    -> Checking if the User Already Exists in the Database
+        -> Before adding a new user to the database, check if the entered username already exists
+        -> Use SQLAlchemy to query the database and look for the username in the `username` column of the `User` model (or the appropriate table)
+        -> SQLAlchemy provides easy querying with `filter_by` or `filter` methods:
+            ```python
+            user = User.query.filter_by(username=username).first()
+            ```
+        -> If the result is `None`, it means the user is not already in the database, and thus, they are new
+        -> If a matching record is found, the user is a returning user, and no new record needs to be created
+
+    -> Setting Session Variables to Track User Status
+        -> Flask uses sessions to track information across requests (without requiring the user to log in)
+        -> In this case, the session will store whether the user is new or returning
+        -> Session variables are set using `session` from Flask, which stores data between user requests
+        -> Example:
+            - If the user is new:
+                ```python
+                session['new_user'] = True
+                ```
+            - If the user is returning:
+                ```python
+                session['new_user'] = False
+                ```
+        -> Session data persists across requests during the user's session, allowing you to customise the user experience
+        -> Note: Sessions require a secret key to be set in your Flask app:
+            ```python
+            app.secret_key = 'your_secret_key'
+            ```
+
+    -> Storing the New User in the Database
+        -> If the user does not already exist in the database (checked via the query), they are considered new
+        -> A new `User` object is created using the data (e.g., the entered `username`) and added to the session:
+            ```python
+            new_user = User(username=username)
+            db.session.add(new_user)
+            db.session.commit()
+            ```
+        -> This creates a new entry in the `User` table (or equivalent) and commits the transaction to save it
+        -> `db.session.add()` adds the new record to the current session, and `db.session.commit()` saves the changes to the database
+
+    -> Updating Session Variables for New vs. Returning Users
+        -> If the user already exists (i.e., `user` is not `None`), update the session variable to reflect that they are a returning user
+        -> Example:
+            ```python
+            session['new_user'] = False
+            ```
+        -> This session variable allows the app to differentiate between new and returning users on subsequent visits
+
+    -> Modifying the Template to Display Different Greetings
+        -> In your Flask route, pass the session data (e.g., `new_user`) and the username to the template using `render_template`
+        -> In the template, use Jinja to display the appropriate message based on whether the user is new or returning
+        -> Example template logic:
+            ```html
+            {% if session['new_user'] %}
+                <p>Nice to meet you, {{ username }}!</p>
+            {% else %}
+                <p>Welcome back, {{ username }}!</p>
+            {% endif %}
+            ```
+        -> The `session['new_user']` variable is checked to determine if the user is new or returning
+        -> The template then renders a different greeting message based on this condition
+
+    -> Testing the User Flow
+        -> Test the feature by entering a new username into the form and submitting it
+        -> The first time the user enters a name, the application should store the name in the database and display a greeting for a new user (e.g., "Nice to meet you, [username]!")
+        -> When a returning user submits the same name, the app should recognise the user (via the session and the database) and show a personalised greeting like "Welcome back, [username]!"
+        -> This confirms that the system correctly identifies new and returning users
+
+    -> Handling Returning Users
+        -> Once the user enters their name and submits the form, the session variable tracks whether they are new or returning
+        -> For returning users, the session will contain `session['new_user'] = False`, and the app will display a personalised greeting
+        -> Returning users are greeted with a message that includes their name, such as "Welcome back, [username]!"
+        -> This allows the app to create a more personalised and engaging user experience for users who interact with the app multiple times
+
+    -> Conclusion
+        -> By the end of this process, you will have added functionality to store usernames in the database and track whether a user is new or returning
+        -> This personalised user experience enhances user interaction and makes the app feel more tailored to each individual
+        -> Flask sessions provide a lightweight and easy way to track user state (new or returning), while the database ensures persistence of user data for future visits
+        -> The ability to greet returning users differently from new users is just one example of how you can use database and session management to create dynamic, personalised web applications
