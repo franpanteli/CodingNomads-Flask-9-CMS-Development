@@ -1,4 +1,4 @@
-# CodingNomads-Flask-16-Performance-Optimisation
+# CodingNomads-Flask-9-CMS-Development
 ## Repository File Tree
 This repository contains my work for the 16th module in the [Coding Nomads Flask Web Framework](https://codingnomads.com/course/python-flask-web-framework) course. I completed this 21-module course as part of my independent learning, to invest in my Python skills. I produced an in-depth library of resources on this module, whose file tree is provided below. 
 
