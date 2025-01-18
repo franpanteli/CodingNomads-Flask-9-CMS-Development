@@ -15,5 +15,5 @@ Video notes were made in a txt format, contained in [16.9 Videos](https://github
 
 ## To Clone This Repository
 ```
-git clone https://github.com/franpanteli/CodingNomads-Flask-16-Performance-Optimisation.git
+git clone https://github.com/franpanteli/CodingNomads-Flask-9-CMS-Development.git
 ```
