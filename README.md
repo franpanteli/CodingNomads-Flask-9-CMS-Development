@@ -1,6 +1,6 @@
 # CodingNomads-Flask-9-CMS-Development
 ## Repository File Tree
-This repository contains my work for the 16th module in the [Coding Nomads Flask Web Framework](https://codingnomads.com/course/python-flask-web-framework) course. I completed this 21-module course as part of my independent learning, to invest in my Python skills. I produced an in-depth library of resources on this module, whose file tree is provided below. 
+This repository contains my work for the 9th module in the [Coding Nomads Flask Web Framework](https://codingnomads.com/course/python-flask-web-framework) course. I completed this 21-module course as part of my independent learning, to invest in my Python skills. I produced an in-depth library of resources on this module, whose file tree is provided below. 
 
 <img width="821" alt="Screenshot 2025-01-19 at 15 40 33" src="https://github.com/user-attachments/assets/c2c89695-8168-47d2-a77a-47666405e539" />
 
