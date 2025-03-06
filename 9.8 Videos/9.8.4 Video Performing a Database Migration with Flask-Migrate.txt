@@ -1,116 +1,116 @@
--> Using Flask-Migrate for Database Migrations
-    -> Installing Flask-Migrate
-        -> Flask-Migrate is an extension that handles database migrations in Flask applications
-        -> Install Flask-Migrate via pip to your terminal by running the command:
-            ```bash
-            pip install flask-migrate
-            ```
-        -> Once installed, import the `Migrate` class from Flask-Migrate in your app's main Python file to initialise it:
-            ```python
-            from flask_migrate import Migrate
-            ```
+-> using flask-migrate for database migrations  
+    -> installing flask-migrate  
+        -> flask-migrate is an extension that handles database migrations in flask applications  
+        -> install flask-migrate via pip to your terminal by running the command:  
+            ```bash  
+            pip install flask-migrate  
+            ```  
+        -> once installed, import the `migrate` class from flask-migrate in your app's main python file to initialise it:  
+            ```python  
+            from flask_migrate import migrate  
+            ```  
 
-    -> Initialising Flask-Migrate
-        -> Create an instance of the `Migrate` class by passing two arguments: 
-            -> The `app` instance (your Flask app object)
-            -> The `db` instance (your SQLAlchemy database object)
-        -> The `Migrate` object ties the Flask app with the database and enables migration functionality
-        -> The setup code looks like this:
-            ```python
-            migrate = Migrate(app, db)
-            ```
-        -> The `Migrate` instance will track changes in your models, allowing Flask-Migrate to generate migration scripts
-        -> This setup is necessary because Flask-Migrate needs to know both your application and the database to perform migrations
+    -> initialising flask-migrate  
+        -> create an instance of the `migrate` class by passing two arguments:  
+            -> the `app` instance (your flask app object)  
+            -> the `db` instance (your sqlalchemy database object)  
+        -> the `migrate` object ties the flask app with the database and enables migration functionality  
+        -> the setup code looks like this:  
+            ```python  
+            migrate = migrate(app, db)  
+            ```  
+        -> the `migrate` instance will track changes in your models, allowing flask-migrate to generate migration scripts  
+        -> this setup is necessary because flask-migrate needs to know both your application and the database to perform migrations  
     
-    -> Configuration Option for SQLAlchemy Users
-        -> If you are using SQLAlchemy (which is common with Flask), there is an important configuration step:
-            -> The `SQLALCHEMY_TRACK_MODIFICATIONS` option must be set to `False` in your Flask app
-            -> This is important because SQLAlchemy needs to track changes in the database for migration purposes
-            -> Without this, Flask-Migrate may not be able to apply certain migrations such as altering tables
-        -> Add the following configuration setting to your Flask app:
-            ```python
-            app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-            ```
+    -> configuration option for sqlalchemy users  
+        -> if you are using sqlalchemy (which is common with flask), there is an important configuration step:  
+            -> the `sqlalchemy_track_modifications` option must be set to `false` in your flask app  
+            -> this is important because sqlalchemy needs to track changes in the database for migration purposes  
+            -> without this, flask-migrate may not be able to apply certain migrations such as altering tables  
+        -> add the following configuration setting to your flask app:  
+            ```python  
+            app.config['sqlalchemy_track_modifications'] = false  
+            ```  
 
-    -> Initialising the Database and Migration Folder
-        -> After setting up Flask-Migrate, you'll need to initialise the database migration environment:
-            -> First, ensure your environment is activated (e.g., using a virtual environment) and the `FLASK_APP` environment variable is set
-            -> In your terminal, run the following command:
-                ```bash
-                flask db init
-                ```
-            -> This command initialises a `migrations` folder in your project directory
-                -> This folder will contain migration-related files, including a `versions` subfolder
-                -> The `migrations` folder is where Flask-Migrate will store all the migration scripts
+    -> initialising the database and migration folder  
+        -> after setting up flask-migrate, you'll need to initialise the database migration environment:  
+            -> first, ensure your environment is activated (e.g., using a virtual environment) and the `flask_app` environment variable is set  
+            -> in your terminal, run the following command:  
+                ```bash  
+                flask db init  
+                ```  
+            -> this command initialises a `migrations` folder in your project directory  
+                -> this folder will contain migration-related files, including a `versions` subfolder  
+                -> the `migrations` folder is where flask-migrate will store all the migration scripts  
     
-    -> Performing the First Migration
-        -> After initialising the migration setup, you need to perform the first migration to create the migration scripts
-        -> Before proceeding, it's highly recommended to back up your database to avoid potential data loss
-        -> Run the following command to generate the migration scripts:
-            ```bash
-            flask db migrate
-            ```
-        -> Flask-Migrate compares the current state of your database (schema) with the models defined in your application
-            -> If there are any changes (e.g., new tables, columns, or relationships), Flask-Migrate will create a migration script
-            -> If no changes are detected (i.e., the database matches the model state), Flask-Migrate won’t generate any migration files
-        -> It’s also possible to provide a descriptive message to the migration command, which will be added to the migration script for future reference:
-            ```bash
-            flask db migrate -m "Initial migration"
-            ```
+    -> performing the first migration  
+        -> after initialising the migration setup, you need to perform the first migration to create the migration scripts  
+        -> before proceeding, it's highly recommended to back up your database to avoid potential data loss  
+        -> run the following command to generate the migration scripts:  
+            ```bash  
+            flask db migrate  
+            ```  
+        -> flask-migrate compares the current state of your database (schema) with the models defined in your application  
+            -> if there are any changes (e.g., new tables, columns, or relationships), flask-migrate will create a migration script  
+            -> if no changes are detected (i.e., the database matches the model state), flask-migrate won’t generate any migration files  
+        -> it’s also possible to provide a descriptive message to the migration command, which will be added to the migration script for future reference:  
+            ```bash  
+            flask db migrate -m "initial migration"  
+            ```  
 
-    -> Migration Script Overview
-        -> Once the migration is created, open the new migration file in the `migrations/versions` directory
-        -> The file will contain:
-            -> A message at the top with a unique identifier for the migration (used for tracking)
-            -> The migration script itself, which will include:
-                -> An `upgrade()` function containing the actual operations that should be performed on the database
-                -> A `downgrade()` function that reverts those changes if you need to undo the migration
-        -> For example, an `upgrade()` function might create tables, add columns, or modify relationships:
-            ```python
-            def upgrade():
-                # Code to create or alter tables
-                op.create_table('users', ...)
-            ```
-        -> The `downgrade()` function will do the reverse of whatever was done in the `upgrade()` function:
-            ```python
-            def downgrade():
-                # Code to revert changes
-                op.drop_table('users')
-            ```
+    -> migration script overview  
+        -> once the migration is created, open the new migration file in the `migrations/versions` directory  
+        -> the file will contain:  
+            -> a message at the top with a unique identifier for the migration (used for tracking)  
+            -> the migration script itself, which will include:  
+                -> an `upgrade()` function containing the actual operations that should be performed on the database  
+                -> a `downgrade()` function that reverts those changes if you need to undo the migration  
+        -> for example, an `upgrade()` function might create tables, add columns, or modify relationships:  
+            ```python  
+            def upgrade():  
+                # code to create or alter tables  
+                op.create_table('users', ...)  
+            ```  
+        -> the `downgrade()` function will do the reverse of whatever was done in the `upgrade()` function:  
+            ```python  
+            def downgrade():  
+                # code to revert changes  
+                op.drop_table('users')  
+            ```  
 
-    -> Reviewing and Committing the Migration Script
-        -> It is important to review the migration script before applying it to ensure it matches the changes you expect
-        -> Sometimes Flask-Migrate may not capture all changes accurately, so it's good practice to check the generated script manually
-        -> After reviewing, add the migration script file to your version control system (e.g., Git)
-            -> This ensures that the migration script is versioned and tracked, and can be shared among team members
-            -> It's a good idea to commit the migration script before applying it to the database
-            ```bash
-            git add migrations/versions/*.py
-            git commit -m "Add initial migration"
-            ```
+    -> reviewing and committing the migration script  
+        -> it is important to review the migration script before applying it to ensure it matches the changes you expect  
+        -> sometimes flask-migrate may not capture all changes accurately, so it's good practice to check the generated script manually  
+        -> after reviewing, add the migration script file to your version control system (e.g., git)  
+            -> this ensures that the migration script is versioned and tracked, and can be shared among team members  
+            -> it's a good idea to commit the migration script before applying it to the database  
+            ```bash  
+            git add migrations/versions/*.py  
+            git commit -m "add initial migration"  
+            ```  
 
-    -> Applying the Migration with `flask db upgrade`
-        -> After committing your migration script, the next step is to apply the migration to your database
-        -> Run the following command to apply the changes defined in the migration script:
-            ```bash
-            flask db upgrade
-            ```
-        -> This command will execute the `upgrade()` function in the migration script and apply the changes to the database
-        -> The terminal output will show the version of the migration that was applied and confirm whether the process was successful
-        -> After applying the migration, verify that the changes (e.g., tables, columns, relationships) have been made to the database
-            -> You can do this by inspecting the database (e.g., using a database tool like pgAdmin, MySQL Workbench, or a CLI tool)
+    -> applying the migration with `flask db upgrade`  
+        -> after committing your migration script, the next step is to apply the migration to your database  
+        -> run the following command to apply the changes defined in the migration script:  
+            ```bash  
+            flask db upgrade  
+            ```  
+        -> this command will execute the `upgrade()` function in the migration script and apply the changes to the database  
+        -> the terminal output will show the version of the migration that was applied and confirm whether the process was successful  
+        -> after applying the migration, verify that the changes (e.g., tables, columns, relationships) have been made to the database  
+            -> you can do this by inspecting the database (e.g., using a database tool like pgadmin, mysql workbench, or a cli tool)  
 
-    -> Rollback and Downgrade Migrations (if needed)
-        -> If you need to revert the migration, Flask-Migrate allows you to roll back the changes using the `flask db downgrade` command
-        -> This command will execute the `downgrade()` function from the migration script, reverting any changes made during the upgrade
-        -> For example, if you applied a migration that added a `users` table, running `flask db downgrade` will remove that table from the database
+    -> rollback and downgrade migrations (if needed)  
+        -> if you need to revert the migration, flask-migrate allows you to roll back the changes using the `flask db downgrade` command  
+        -> this command will execute the `downgrade()` function from the migration script, reverting any changes made during the upgrade  
+        -> for example, if you applied a migration that added a `users` table, running `flask db downgrade` will remove that table from the database  
 
-    -> Conclusion on Using Flask-Migrate
-        -> Flask-Migrate is an essential tool for managing database migrations in Flask applications
-        -> By following these steps, you can:
-            -> Generate migration scripts automatically
-            -> Apply migrations to update the database schema
-            -> Revert changes if necessary with the `downgrade()` function
-        -> Always back up your database before performing migrations, especially if you're modifying existing tables or data structures
-        -> Review the migration script before running the `upgrade()` command to ensure it reflects the expected changes
-        -> Use version control to keep track of migration scripts and collaborate effectively with your team
+    -> conclusion on using flask-migrate  
+        -> flask-migrate is an essential tool for managing database migrations in flask applications  
+        -> by following these steps, you can:  
+            -> generate migration scripts automatically  
+            -> apply migrations to update the database schema  
+            -> revert changes if necessary with the `downgrade()` function  
+        -> always back up your database before performing migrations, especially if you're modifying existing tables or data structures  
+        -> review the migration script before running the `upgrade()` command to ensure it reflects the expected changes  
+        -> use version control to keep track of migration scripts and collaborate effectively with your team  

@@ -1,63 +1,63 @@
--> Database Management Using Flask-SQLAlchemy Lesson  
-   -> Using Flask SQLAlchemy  
+-> database management using flask-sqlalchemy lesson  
+   -> using flask sqlalchemy  
 
--> Introduction  
-   -> This lesson explains the role of databases in Flask applications  
-   -> Learn about SQLAlchemy, Flask-SQLAlchemy, and their integration into Flask projects  
-   -> Includes step-by-step guidance for installing Flask-SQLAlchemy  
+-> introduction  
+   -> this lesson explains the role of databases in flask applications  
+   -> learn about sqlalchemy, flask-sqlalchemy, and their integration into flask projects  
+   -> includes step-by-step guidance for installing flask-sqlalchemy  
 
--> Why Use a Database?  
-   -> Modern web applications often rely on databases to store data in an organised manner  
-   -> Databases allow efficient handling of large and growing data sets, supporting specific retrieval requests  
-   -> They facilitate key functions like user authentication, presenting relevant content, and maintaining server records  
-   -> Examples include retrieving user credentials for login verification, fetching product listings with prices, or accessing stored images by criteria  
+-> why use a database?  
+   -> modern web applications often rely on databases to store data in an organised manner  
+   -> databases allow efficient handling of large and growing data sets, supporting specific retrieval requests  
+   -> they facilitate key functions like user authentication, presenting relevant content, and maintaining server records  
+   -> examples include retrieving user credentials for login verification, fetching product listings with prices, or accessing stored images by criteria  
 
--> Brief Introduction to SQL and Relational Databases  
-   -> Databases are categorised into relational (SQL) and document-oriented (NoSQL) types  
-   -> SQL stands for Structured Query Language, the standard language for querying relational databases  
-   -> Relational databases organise data in tables, each modelling a specific entity in the system's domain  
-   -> Tables comprise fixed columns that define the type of data and rows that dynamically grow as data is added  
-   -> For example, a pet store's database might include tables such as `Products`, `Customers`, and `Pet Categories`  
+-> brief introduction to sql and relational databases  
+   -> databases are categorised into relational (sql) and document-oriented (nosql) types  
+   -> sql stands for structured query language, the standard language for querying relational databases  
+   -> relational databases organise data in tables, each modelling a specific entity in the system's domain  
+   -> tables comprise fixed columns that define the type of data and rows that dynamically grow as data is added  
+   -> for example, a pet store's database might include tables such as `products`, `customers`, and `pet categories`  
 
--> What is SQLAlchemy?  
-   -> SQLAlchemy is a Python SQL toolkit and Object Relational Mapper (ORM)  
-   -> Enables developers to interact with databases using Python objects instead of raw SQL queries or table manipulations  
-   -> Offers flexibility and supports multiple database backends while providing access to low-level SQL features  
-   -> Simplifies complex operations and enhances the developer experience  
+-> what is sqlalchemy?  
+   -> sqlalchemy is a python sql toolkit and object relational mapper (orm)  
+   -> enables developers to interact with databases using python objects instead of raw sql queries or table manipulations  
+   -> offers flexibility and supports multiple database backends while providing access to low-level sql features  
+   -> simplifies complex operations and enhances the developer experience  
 
--> What is Flask-SQLAlchemy?  
-   -> Flask-SQLAlchemy is an extension that integrates SQLAlchemy with Flask  
-   -> Reduces the complexity of setting up SQLAlchemy in Flask projects by handling configuration and connection management  
-   -> Offers an easy-to-use interface for basic operations while allowing advanced customisation with SQLAlchemy directly  
+-> what is flask-sqlalchemy?  
+   -> flask-sqlalchemy is an extension that integrates sqlalchemy with flask  
+   -> reduces the complexity of setting up sqlalchemy in flask projects by handling configuration and connection management  
+   -> offers an easy-to-use interface for basic operations while allowing advanced customisation with sqlalchemy directly  
 
--> How to Install SQLAlchemy for Python and Flask  
-   -> Flask-SQLAlchemy can be installed using pip:  
-      -> Command: `(env) $ pip install flask-sqlalchemy`  
+-> how to install sqlalchemy for python and flask  
+   -> flask-sqlalchemy can be installed using pip:  
+      -> command: `(env) $ pip install flask-sqlalchemy`  
 
--> Specifying a Database  
-   -> Flask-SQLAlchemy uses URLs to define database connections  
-   -> SQLite database example:  
-      -> For Linux/MacOS: `sqlite:////absolute/path/to/database`  
-      -> For Windows: `sqlite:///c:/absolute/path/to/database`  
-   -> Configuration in Flask:  
+-> specifying a database  
+   -> flask-sqlalchemy uses urls to define database connections  
+   -> sqlite database example:  
+      -> for linux/macos: `sqlite:////absolute/path/to/database`  
+      -> for windows: `sqlite:///c:/absolute/path/to/database`  
+   -> configuration in flask:  
       ```python  
       import os  
-      from flask_sqlalchemy import SQLAlchemy  
+      from flask_sqlalchemy import sqlalchemy  
 
       basedir = os.path.abspath(os.path.dirname(__file__))  
-      app = Flask(__name__)  
-      app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')  
-      app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
-      db = SQLAlchemy(app)  
+      app = flask(__name__)  
+      app.config['sqlalchemy_database_uri'] = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')  
+      app.config['sqlalchemy_track_modifications'] = false  
+      db = sqlalchemy(app)  
       ```  
-   -> `SQLALCHEMY_DATABASE_URI` specifies the path to the database file  
-   -> `SQLALCHEMY_TRACK_MODIFICATIONS` is disabled to save memory and prevent unnecessary tracking  
-   -> If the specified database file does not exist, SQLAlchemy will automatically create it  
+   -> `sqlalchemy_database_uri` specifies the path to the database file  
+   -> `sqlalchemy_track_modifications` is disabled to save memory and prevent unnecessary tracking  
+   -> if the specified database file does not exist, sqlalchemy will automatically create it  
 
--> Summary: What is Flask-SQLAlchemy and How to Install SQLAlchemy?  
-   -> SQLAlchemy is a Python toolkit and ORM for working with relational databases  
-   -> Relational databases use tables to store data and are queried using SQL  
-   -> SQLAlchemy simplifies database interactions by enabling operations through Python objects  
-   -> Flask-SQLAlchemy streamlines the integration of SQLAlchemy into Flask projects, handling configuration and connections  
-   -> Installation is straightforward using pip: `(env) $ pip install flask-sqlalchemy`  
-   -> Configuration involves specifying the database URL and disabling unnecessary tracking features  
+-> summary: what is flask-sqlalchemy and how to install sqlalchemy?  
+   -> sqlalchemy is a python toolkit and orm for working with relational databases  
+   -> relational databases use tables to store data and are queried using sql  
+   -> sqlalchemy simplifies database interactions by enabling operations through python objects  
+   -> flask-sqlalchemy streamlines the integration of sqlalchemy into flask projects, handling configuration and connections  
+   -> installation is straightforward using pip: `(env) $ pip install flask-sqlalchemy`  
+   -> configuration involves specifying the database url and disabling unnecessary tracking features  

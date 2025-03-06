@@ -1,93 +1,93 @@
--> Database Management Using Flask-SQLAlchemy Lesson  
-   -> Create Models and Relationships with Flask-SQLAlchemy  
+-> database management using flask-sqlalchemy lesson  
+   -> create models and relationships with flask-sqlalchemy  
 
--> Contents  
-   -> Introduction  
-   -> Defining Models  
-   -> Flask SQLAlchemy Table Columns  
-   -> Flask SQLAlchemy One-to-Many Relationships  
-   -> Foreign Keys  
-   -> Backref  
-   -> Summary: Defining Models and Relationships in Flask SQLAlchemy  
+-> contents  
+   -> introduction  
+   -> defining models  
+   -> flask sqlalchemy table columns  
+   -> flask sqlalchemy one-to-many relationships  
+   -> foreign keys  
+   -> backref  
+   -> summary: defining models and relationships in flask sqlalchemy  
 
--> Introduction  
-   -> This lesson covers creating models and relationships in Flask-SQLAlchemy  
-   -> Models abstract database functionality, and relationships link data entities  
-   -> Example theme: a music-sharing social media webapp  
+-> introduction  
+   -> this lesson covers creating models and relationships in flask-sqlalchemy  
+   -> models abstract database functionality, and relationships link data entities  
+   -> example theme: a music-sharing social media webapp  
 
--> Defining Models  
-   -> Models represent database tables and are Python classes with attributes corresponding to table columns  
-   -> Flask-SQLAlchemy provides `db.Model` as a base class for defining models  
-   -> Example models for a music-sharing app:  
+-> defining models  
+   -> models represent database tables and are python classes with attributes corresponding to table columns  
+   -> flask-sqlalchemy provides `db.model` as a base class for defining models  
+   -> example models for a music-sharing app:  
       ```python  
-      class Role(db.Model):  
+      class role(db.model):  
           __tablename__ = 'roles'  
-          id = db.Column(db.Integer, primary_key=True)  
-          name = db.Column(db.String(64), unique=True)  
+          id = db.column(db.integer, primary_key=true)  
+          name = db.column(db.string(64), unique=true)  
 
           def __repr__(self):  
-              return f"<Role {self.name}>"  
+              return f"<role {self.name}>"  
 
-      class User(db.Model):  
+      class user(db.model):  
           __tablename__ = 'users'  
-          id = db.Column(db.Integer, primary_key=True)  
-          username = db.Column(db.String(64), unique=True, index=True)  
+          id = db.column(db.integer, primary_key=true)  
+          username = db.column(db.string(64), unique=true, index=true)  
 
           def __repr__(self):  
-              return f"<User {self.username}>"  
+              return f"<user {self.username}>"  
       ```  
 
--> Flask SQLAlchemy Table Columns  
-   -> Table columns are defined using `db.Column`  
-   -> Example column types include:  
-      -> `Integer`: Regular integers  
-      -> `String`: Variable-length strings  
-      -> `Boolean`: True/False values  
-      -> `DateTime`: Date and time values  
-      -> `Text`: Long text strings  
-   -> Column options:  
-      -> `primary_key`: Marks a column as the table's primary key  
-      -> `unique`: Ensures values are unique across rows  
-      -> `index`: Creates an index for faster lookups  
-      -> `nullable`: Specifies whether a column can contain null values  
-      -> `default`: Provides a default value for the column  
+-> flask sqlalchemy table columns  
+   -> table columns are defined using `db.column`  
+   -> example column types include:  
+      -> `integer`: regular integers  
+      -> `string`: variable-length strings  
+      -> `boolean`: true/false values  
+      -> `datetime`: date and time values  
+      -> `text`: long text strings  
+   -> column options:  
+      -> `primary_key`: marks a column as the table's primary key  
+      -> `unique`: ensures values are unique across rows  
+      -> `index`: creates an index for faster lookups  
+      -> `nullable`: specifies whether a column can contain null values  
+      -> `default`: provides a default value for the column  
 
--> Flask SQLAlchemy One-to-Many Relationships  
-   -> Relationships connect rows across tables (e.g., one user to one role)  
-   -> Defined using `db.relationship()` and `db.ForeignKey()`  
-   -> Example:  
+-> flask sqlalchemy one-to-many relationships  
+   -> relationships connect rows across tables (e.g., one user to one role)  
+   -> defined using `db.relationship()` and `db.foreignkey()`  
+   -> example:  
       ```python  
-      class Role(db.Model):  
+      class role(db.model):  
           # ...  
-          users = db.relationship('User', backref='role')  
+          users = db.relationship('user', backref='role')  
 
-      class User(db.Model):  
+      class user(db.model):  
           # ...  
-          role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))  
+          role_id = db.column(db.integer, db.foreignkey('roles.id'))  
       ```  
 
--> Foreign Keys  
-   -> Foreign keys establish links between tables  
-   -> A foreign key in one table references the primary key in another  
-   -> Example:  
-      -> The `role_id` column in the `User` table is a foreign key referencing the `id` column in the `Role` table  
-      -> `db.ForeignKey('roles.id')` specifies the relationship  
+-> foreign keys  
+   -> foreign keys establish links between tables  
+   -> a foreign key in one table references the primary key in another  
+   -> example:  
+      -> the `role_id` column in the `user` table is a foreign key referencing the `id` column in the `role` table  
+      -> `db.foreignkey('roles.id')` specifies the relationship  
 
--> Backref  
-   -> The `backref` argument in `db.relationship()` creates a bidirectional relationship  
-   -> Example:  
-      -> Access `user.role` for the role associated with a user  
-      -> Access `role.users` for all users associated with a role  
+-> backref  
+   -> the `backref` argument in `db.relationship()` creates a bidirectional relationship  
+   -> example:  
+      -> access `user.role` for the role associated with a user  
+      -> access `role.users` for all users associated with a role  
 
--> Additional Relationship Options  
-   -> `primaryjoin` and `secondaryjoin`: Resolve ambiguity in join conditions  
-   -> `lazy`: Specifies how related data is loaded (e.g., eager or lazy loading)  
-   -> `order_by`: Determines the sorting of related items  
-   -> `uselist`: Whether the relationship should return a list or a scalar  
+-> additional relationship options  
+   -> `primaryjoin` and `secondaryjoin`: resolve ambiguity in join conditions  
+   -> `lazy`: specifies how related data is loaded (e.g., eager or lazy loading)  
+   -> `order_by`: determines the sorting of related items  
+   -> `uselist`: whether the relationship should return a list or a scalar  
 
--> Summary: Defining Models and Relationships in Flask SQLAlchemy  
-   -> Models map Python classes to database tables, with attributes as columns  
-   -> The `__tablename__` attribute overrides default table naming conventions  
-   -> Relationships, such as one-to-many, link models and facilitate data queries  
-   -> Key tools: `db.Model`, `db.Column`, `db.relationship()`, `db.ForeignKey()`  
-   -> With this foundation, you can design more complex database models  
+-> summary: defining models and relationships in flask sqlalchemy  
+   -> models map python classes to database tables, with attributes as columns  
+   -> the `__tablename__` attribute overrides default table naming conventions  
+   -> relationships, such as one-to-many, link models and facilitate data queries  
+   -> key tools: `db.model`, `db.column`, `db.relationship()`, `db.foreignkey()`  
+   -> with this foundation, you can design more complex database models  

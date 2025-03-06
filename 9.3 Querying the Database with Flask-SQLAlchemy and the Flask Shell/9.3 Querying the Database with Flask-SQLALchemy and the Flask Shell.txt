@@ -1,124 +1,124 @@
--> Database Management using Flask-SQLAlchemy Lesson
-   -> Querying the Database with Flask-SQLAlchemy and the Flask Shell
+-> database management using flask-sqlalchemy lesson  
+   -> querying the database with flask-sqlalchemy and the flask shell  
 
--> Introduction
-   -> Flask SQLAlchemy provides a convenient way to manage databases and query models
-   -> Flask Shell is used to interact with Flask applications through a Python interpreter
+-> introduction  
+   -> flask sqlalchemy provides a convenient way to manage databases and query models  
+   -> flask shell is used to interact with flask applications through a python interpreter  
 
--> Flask SQLAlchemy and Flask Shell
-   -> Flask Shell allows you to interact with the Flask app's context via a Python shell
-   -> To start Flask Shell:
-      -> Set the environment variable to `FLASK_APP=hello.py`
-      -> In the terminal, type `flask shell`
+-> flask sqlalchemy and flask shell  
+   -> flask shell allows you to interact with the flask app's context via a python shell  
+   -> to start flask shell:  
+      -> set the environment variable to `flask_app=hello.py`  
+      -> in the terminal, type `flask shell`  
 
--> Creating Tables with Flask SQLAlchemy
-   -> Flask-SQLAlchemy automatically creates tables for all defined models using `db.create_all()`
-   -> If the tables already exist, they won't be recreated; if the models change, you'll need to drop tables with `db.drop_all()` before recreating
-   -> Example to create tables:
-     ```python
-     from hello import db
-     db.create_all()
-     ```
+-> creating tables with flask sqlalchemy  
+   -> flask-sqlalchemy automatically creates tables for all defined models using `db.create_all()`  
+   -> if the tables already exist, they won't be recreated; if the models change, you'll need to drop tables with `db.drop_all()` before recreating  
+   -> example to create tables:  
+     ```python  
+     from hello import db  
+     db.create_all()  
+     ```  
 
--> Dropping Tables
-   -> To update tables after changing models, drop and recreate tables:
-     ```python
-     db.drop_all()
-     db.create_all()
-     ```
+-> dropping tables  
+   -> to update tables after changing models, drop and recreate tables:  
+     ```python  
+     db.drop_all()  
+     db.create_all()  
+     ```  
 
--> Inserting Rows Into Your Tables
-   -> Insert rows by creating model instances and adding them to the database session
-   -> Example:
-     ```python
-     admin_role = Role(name='Administrator')
-     user_role = Role(name='User')
-     user_paul = User(username='paul', role=admin_role)
-     db.session.add(admin_role)
-     db.session.add(user_role)
-     db.session.add([user_paul])
-     db.session.commit()
-     ```
+-> inserting rows into your tables  
+   -> insert rows by creating model instances and adding them to the database session  
+   -> example:  
+     ```python  
+     admin_role = Role(name='administrator')  
+     user_role = Role(name='user')  
+     user_paul = User(username='paul', role=admin_role)  
+     db.session.add(admin_role)  
+     db.session.add(user_role)  
+     db.session.add([user_paul])  
+     db.session.commit()  
+     ```  
 
--> Flask SQLAlchemy Database Session
-   -> Add objects to the session using `db.session.add()` and commit with `db.session.commit()`
-   -> Committing a session writes data to the database
-   -> Session errors cause an "undo" of all changes, so group related changes together
-   -> Example:
-     ```python
-     db.session.add(admin_role)
-     db.session.add(user_role)
-     db.session.commit()
-     ```
+-> flask sqlalchemy database session  
+   -> add objects to the session using `db.session.add()` and commit with `db.session.commit()`  
+   -> committing a session writes data to the database  
+   -> session errors cause an "undo" of all changes, so group related changes together  
+   -> example:  
+     ```python  
+     db.session.add(admin_role)  
+     db.session.add(user_role)  
+     db.session.commit()  
+     ```  
 
--> Modifying and Deleting Rows
-   -> To modify a row, change the attributes of the model instance, then commit:
-     ```python
-     admin_role.name = 'Admin'
-     db.session.commit()
-     ```
-   -> To delete a row, use `db.session.delete()`, then commit:
-     ```python
-     db.session.delete(user_jan)
-     db.session.commit()
-     ```
+-> modifying and deleting rows  
+   -> to modify a row, change the attributes of the model instance, then commit:  
+     ```python  
+     admin_role.name = 'admin'  
+     db.session.commit()  
+     ```  
+   -> to delete a row, use `db.session.delete()`, then commit:  
+     ```python  
+     db.session.delete(user_jan)  
+     db.session.commit()  
+     ```  
 
--> Basic Queries and Filtering
-   -> Query all data from a table using `.all()`
-     ```python
-     Role.query.all()
-     User.query.all()
-     ```
-   -> Filter queries with `.filter_by()` to get specific data
-     ```python
-     User.query.filter_by(role=user_role).all()
-     ```
+-> basic queries and filtering  
+   -> query all data from a table using `.all()`  
+     ```python  
+     role.query.all()  
+     user.query.all()  
+     ```  
+   -> filter queries with `.filter_by()` to get specific data  
+     ```python  
+     user.query.filter_by(role=user_role).all()  
+     ```  
 
--> Query Executor
-   -> Common query methods include `.all()`, `.first()`, `.get()`, `.count()`, `.paginate()`
-   -> Example of limiting results:
-     ```python
-     User.query.filter_by(role=user_role).limit(1).all()
-     ```
+-> query executor  
+   -> common query methods include `.all()`, `.first()`, `.get()`, `.count()`, `.paginate()`  
+   -> example of limiting results:  
+     ```python  
+     user.query.filter_by(role=user_role).limit(1).all()  
+     ```  
 
--> Query Relationships
-   -> Query relationships like a list (e.g., `role.users`), which implicitly executes a query
-   -> Example:
-     ```python
-     users = user_role.users
-     print(users)
-     ```
+-> query relationships  
+   -> query relationships like a list (e.g., `role.users`), which implicitly executes a query  
+   -> example:  
+     ```python  
+     users = user_role.users  
+     print(users)  
+     ```  
 
--> Flask SQLAlchemy Lazy Loading
-   -> Lazy loading loads data only when accessed, optimising performance
-   -> To use lazy loading, define relationships with `lazy='dynamic'`
-     ```python
-     users = user_role.users.order_by(User.username).all()
-     ```
+-> flask sqlalchemy lazy loading  
+   -> lazy loading loads data only when accessed, optimising performance  
+   -> to use lazy loading, define relationships with `lazy='dynamic'`  
+     ```python  
+     users = user_role.users.order_by(user.username).all()  
+     ```  
 
--> Flask SQLAlchemy Lazy Values
-   -> Common lazy loading options include:
-      -> `dynamic`: Query is not executed until needed
-      -> `immediate`: Executes query immediately
-      -> `joined`: Loads data using a join
-      -> `noload`: Data is not loaded automatically
-      -> `select`: Uses a select statement for loading data
+-> flask sqlalchemy lazy values  
+   -> common lazy loading options include:  
+      -> `dynamic`: query is not executed until needed  
+      -> `immediate`: executes query immediately  
+      -> `joined`: loads data using a join  
+      -> `noload`: data is not loaded automatically  
+      -> `select`: uses a select statement for loading data  
 
--> Flask Shell Context Processor
-   -> Use `@app.shell_context_processor` to automatically import models into the Flask shell session
-     ```python
-     @app.shell_context_processor
-     def make_shell_context():
-         return dict(db=db, User=User, Role=Role)
-     ```
-   -> This eliminates the need to manually import models each time you start a new shell session
+-> flask shell context processor  
+   -> use `@app.shell_context_processor` to automatically import models into the flask shell session  
+     ```python  
+     @app.shell_context_processor  
+     def make_shell_context():  
+         return dict(db=db, user=user, role=role)  
+     ```  
+   -> this eliminates the need to manually import models each time you start a new shell session  
 
--> Summary
-   -> You've learned how to create and manage tables, insert, modify, and delete data, and query the database
-   -> Flask-SQLAlchemy simplifies interactions with the database and improves efficiency in querying data
-   -> Key operations:
-      -> `db.create_all()` to create tables
-      -> `db.session.add()` to add data
-      -> `db.session.commit()` to save data
-      -> Query with `.all()`, `.filter_by()`, `.first()`, etc.
-   -> Lazy loading allows you to optimise performance by loading data only when needed
+-> summary  
+   -> you've learned how to create and manage tables, insert, modify, and delete data, and query the database  
+   -> flask-sqlalchemy simplifies interactions with the database and improves efficiency in querying data  
+   -> key operations:  
+      -> `db.create_all()` to create tables  
+      -> `db.session.add()` to add data  
+      -> `db.session.commit()` to save data  
+      -> query with `.all()`, `.filter_by()`, `.first()`, etc.  
+   -> lazy loading allows you to optimise performance by loading data only when needed  

@@ -1,126 +1,126 @@
--> Creating Roles and Users, and Managing the Database in Flask
-    -> Setting Up the Flask Shell Session
-        -> Launch a Flask shell session to interact with the app’s database
-            -> Run the `flask shell` command from your terminal to enter the interactive Flask shell
-            -> This shell allows you to execute Python code in the context of your Flask application
-        -> Import the database object from your application, which is typically defined in the `app.py` or `__init__.py` file
-            -> Example: `from yourapp import db`
-        -> If the database schema has already been created with `db.create_all()`, calling it again won’t have any negative effects
-            -> You can safely call this method to ensure the database tables exist (even if they were previously created)
+-> creating roles and users, and managing the database in flask  
+    -> setting up the flask shell session  
+        -> launch a flask shell session to interact with the app’s database  
+            -> run the `flask shell` command from your terminal to enter the interactive flask shell  
+            -> this shell allows you to execute python code in the context of your flask application  
+        -> import the database object from your application, which is typically defined in the `app.py` or `__init__.py` file  
+            -> example: `from yourapp import db`  
+        -> if the database schema has already been created with `db.create_all()`, calling it again won’t have any negative effects  
+            -> you can safely call this method to ensure the database tables exist (even if they were previously created)  
 
-    -> Adding Roles to the Database
-        -> Roles are typically stored in a `Role` model in the database. 
-            -> The `Role` class is mapped to a `roles` table in your database
-        -> Create an instance of the `Role` class just like you would with any other Python class
-            -> The role’s column values (e.g., `name`) are specified using keyword arguments in the instance creation
-            -> Example:
-                ```python
-                role = Role(name='Administrator')
-                ```
-        -> Add the new role instance to the session using the `db.session.add()` method, which stages the role to be saved
-            -> Example: `db.session.add(role)`
-        -> Commit the session to persist the role in the database using `db.session.commit()`
-            -> Example: `db.session.commit()`
-            -> This final step ensures that the changes are applied to the database, adding the new role entry
+    -> adding roles to the database  
+        -> roles are typically stored in a `role` model in the database.  
+            -> the `role` class is mapped to a `roles` table in your database  
+        -> create an instance of the `role` class just like you would with any other python class  
+            -> the role’s column values (e.g., `name`) are specified using keyword arguments in the instance creation  
+            -> example:  
+                ```python  
+                role = role(name='administrator')  
+                ```  
+        -> add the new role instance to the session using the `db.session.add()` method, which stages the role to be saved  
+            -> example: `db.session.add(role)`  
+        -> commit the session to persist the role in the database using `db.session.commit()`  
+            -> example: `db.session.commit()`  
+            -> this final step ensures that the changes are applied to the database, adding the new role entry  
 
-    -> Creating Users and Associating Roles
-        -> The next step is to create users and assign roles to them
-        -> A `User` class, typically stored in `models.py`, defines the `users` table in the database and can have a `role` attribute that references the `Role` model
-        -> The `User` model and the `Role` model are linked through a relationship. This allows us to associate a role with a user
-        -> Create a user and associate them with a role:
-            -> Example:
-                ```python
-                user = User(username='admin', role=role)
-                ```
-            -> The `role` here is the previously created "Administrator" role. It’s assigned to the user
-        -> After creating the user, add it to the session using `db.session.add(user)`
-        -> Commit the session to store the user object in the database, including their role
-            -> Example: `db.session.commit()`
-        -> To retrieve users with a specific role, simply query the `User` model filtered by role
-            -> Example:
-                ```python
-                users_with_admin_role = User.query.filter_by(role='Administrator').all()
-                ```
+    -> creating users and associating roles  
+        -> the next step is to create users and assign roles to them  
+        -> a `user` class, typically stored in `models.py`, defines the `users` table in the database and can have a `role` attribute that references the `role` model  
+        -> the `user` model and the `role` model are linked through a relationship. this allows us to associate a role with a user  
+        -> create a user and associate them with a role:  
+            -> example:  
+                ```python  
+                user = user(username='admin', role=role)  
+                ```  
+            -> the `role` here is the previously created "administrator" role. it’s assigned to the user  
+        -> after creating the user, add it to the session using `db.session.add(user)`  
+        -> commit the session to store the user object in the database, including their role  
+            -> example: `db.session.commit()`  
+        -> to retrieve users with a specific role, simply query the `user` model filtered by role  
+            -> example:  
+                ```python  
+                users_with_admin_role = user.query.filter_by(role='administrator').all()  
+                ```  
 
-    -> Creating the Database Tables
-        -> To actually create the tables for the `User` and `Role` models in the database, use `db.create_all()`
-        -> This method checks if the required tables exist and creates them if they don’t
-            -> Example:
-                ```python
-                db.create_all()
-                ```
-        -> Once this is called, the `users` and `roles` tables will be created in the database if they weren’t already present
-        -> It’s important to call `create_all()` only after the models are defined and ready to be used
+    -> creating the database tables  
+        -> to actually create the tables for the `user` and `role` models in the database, use `db.create_all()`  
+        -> this method checks if the required tables exist and creates them if they don’t  
+            -> example:  
+                ```python  
+                db.create_all()  
+                ```  
+        -> once this is called, the `users` and `roles` tables will be created in the database if they weren’t already present  
+        -> it’s important to call `create_all()` only after the models are defined and ready to be used  
 
-    -> Configuring the Database for User Creation
-        -> Exit the Flask shell and configure the application by adding a configuration file (e.g., `config.py`) to your project
-        -> This file should contain necessary configurations for Flask and SQLAlchemy, like the database URI, to connect to the database
-            - Example of Flask configuration in `config.py`:
-                ```python
-                SQLALCHEMY_DATABASE_URI = 'sqlite:///your_database.db'
-                SQLALCHEMY_TRACK_MODIFICATIONS = False
-                ```
+    -> configuring the database for user creation  
+        -> exit the flask shell and configure the application by adding a configuration file (e.g., `config.py`) to your project  
+        -> this file should contain necessary configurations for flask and sqlalchemy, like the database uri, to connect to the database  
+            - example of flask configuration in `config.py`:  
+                ```python  
+                sqlalchemy_database_uri = 'sqlite:///your_database.db'  
+                sqlalchemy_track_modifications = false  
+                ```  
 
-    -> Managing Users and Roles
-        -> Create new user instances in the Flask shell, associating each with a role
-        -> Initially, users may not have any role assigned, and their role field in the database will contain a `None` value
-        -> Users can be added to the database without their roles. After adding a user, we can assign a role to them later:
-            - Example:
-                ```python
-                user1 = User(username='user1')
-                db.session.add(user1)
-                db.session.commit()
-                ```
-        -> Assign roles by updating the `role` field and then committing the changes
-            - Example:
-                ```python
-                user1.role = role  # Assign the 'Administrator' role
-                db.session.commit()  # Save the changes to the database
-                ```
+    -> managing users and roles  
+        -> create new user instances in the flask shell, associating each with a role  
+        -> initially, users may not have any role assigned, and their role field in the database will contain a `none` value  
+        -> users can be added to the database without their roles. after adding a user, we can assign a role to them later:  
+            - example:  
+                ```python  
+                user1 = user(username='user1')  
+                db.session.add(user1)  
+                db.session.commit()  
+                ```  
+        -> assign roles by updating the `role` field and then committing the changes  
+            - example:  
+                ```python  
+                user1.role = role  # assign the 'administrator' role  
+                db.session.commit()  # save the changes to the database  
+                ```  
 
-    -> Modifying User Roles
-        -> If you want to change a user's role, retrieve the `User` object, modify the `role` field, and recommit the changes
-        -> Example: If a user’s role is updated, their new role is reflected in the database
-            - Example:
-                ```python
-                user1 = User.query.filter_by(username='user1').first()
-                user1.role = new_role  # Change the user's role
-                db.session.commit()  # Save the update to the database
-                ```
+    -> modifying user roles  
+        -> if you want to change a user's role, retrieve the `user` object, modify the `role` field, and recommit the changes  
+        -> example: if a user’s role is updated, their new role is reflected in the database  
+            - example:  
+                ```python  
+                user1 = user.query.filter_by(username='user1').first()  
+                user1.role = new_role  # change the user's role  
+                db.session.commit()  # save the update to the database  
+                ```  
 
-    -> Querying the Database
-        -> Querying the database is done using SQLAlchemy’s querying methods
-        -> Use `db.session.query()` to create a query, then filter, order, and limit the data as needed
-            - Example of filtering users by role:
-                ```python
-                users = User.query.filter_by(role='Administrator').all()
-                ```
-        -> To limit the number of results returned, use the `limit()` method on the query
-            - Example: `User.query.limit(10).all()` will return a maximum of 10 users
+    -> querying the database  
+        -> querying the database is done using sqlalchemy’s querying methods  
+        -> use `db.session.query()` to create a query, then filter, order, and limit the data as needed  
+            - example of filtering users by role:  
+                ```python  
+                users = user.query.filter_by(role='administrator').all()  
+                ```  
+        -> to limit the number of results returned, use the `limit()` method on the query  
+            - example: `user.query.limit(10).all()` will return a maximum of 10 users  
 
-    -> Modifying Data Loading with Lasy Loading
-        -> Relationships in SQLAlchemy are loaded based on the `lasy` argument in the `relationship()` function
-        -> By default, `lasy='select'` means that when you access a related model (e.g., a user's role), a new database query is executed to fetch the role
-        -> To optimise the query and avoid executing multiple database queries for related models, set `lasy='dynamic'`
-            - Example:
-                ```python
-                role = db.relationship('Role', backref='users', lasy='dynamic')
-                ```
-        -> Setting `lasy='dynamic'` allows you to add additional filters when querying related data. This is useful if you want to filter the users by their roles and apply more complex queries without extra queries being fired automatically
+    -> modifying data loading with lasy loading  
+        -> relationships in sqlalchemy are loaded based on the `lasy` argument in the `relationship()` function  
+        -> by default, `lasy='select'` means that when you access a related model (e.g., a user's role), a new database query is executed to fetch the role  
+        -> to optimise the query and avoid executing multiple database queries for related models, set `lasy='dynamic'`  
+            - example:  
+                ```python  
+                role = db.relationship('role', backref='users', lasy='dynamic')  
+                ```  
+        -> setting `lasy='dynamic'` allows you to add additional filters when querying related data. this is useful if you want to filter the users by their roles and apply more complex queries without extra queries being fired automatically  
 
-    -> Optimising Flask Shell with Application Context Processor
-        -> By default, every time you query the database in the Flask shell, you need to import the necessary objects and models manually
-        -> To make this process smoother, use Flask’s application context processor to add commonly used objects to the session context
-        -> This will allow you to access these objects in the shell without having to import them every time
-        -> Example:
-            ```python
-            @app.context_processor
-            def inject_user_and_role():
-                return dict(db=db, User=User, Role=Role)
-            ```
-        -> With this, the `db`, `User`, and `Role` models are automatically available in the shell context, simplifying queries and development tasks
+    -> optimising flask shell with application context processor  
+        -> by default, every time you query the database in the flask shell, you need to import the necessary objects and models manually  
+        -> to make this process smoother, use flask’s application context processor to add commonly used objects to the session context  
+        -> this will allow you to access these objects in the shell without having to import them every time  
+        -> example:  
+            ```python  
+            @app.context_processor  
+            def inject_user_and_role():  
+                return dict(db=db, user=user, role=role)  
+            ```  
+        -> with this, the `db`, `user`, and `role` models are automatically available in the shell context, simplifying queries and development tasks  
 
-    -> Conclusion
-        -> Creating roles, associating them with users, and efficiently managing these relationships with Flask and SQLAlchemy are fundamental to building robust applications
-        -> Using lasy loading, optimising shell sessions, and effectively querying the database ensures that your application’s database interactions are fast, flexible, and efficient
-        -> Mastering these concepts is essential for managing users, roles, and data in your Flask applications as they scale
+    -> conclusion  
+        -> creating roles, associating them with users, and efficiently managing these relationships with flask and sqlalchemy are fundamental to building robust applications  
+        -> using lasy loading, optimising shell sessions, and effectively querying the database ensures that your application’s database interactions are fast, flexible, and efficient  
+        -> mastering these concepts is essential for managing users, roles, and data in your flask applications as they scale  

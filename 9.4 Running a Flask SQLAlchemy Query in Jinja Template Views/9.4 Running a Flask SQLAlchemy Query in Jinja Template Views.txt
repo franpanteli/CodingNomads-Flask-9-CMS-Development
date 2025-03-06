@@ -1,81 +1,80 @@
--> Database Management using Flask-SQLAlchemy Lesson  
-   -> Running a Flask SQLAlchemy Query in Jinja Template Views  
+-> database management using flask-sqlalchemy lesson  
+   -> running a flask sqlalchemy query in jinja template views  
 
--> Introduction  
-   -> This lesson explores how to execute SQLAlchemy queries within view functions in Flask  
-   -> You'll learn how to apply database querying knowledge to dynamically update content in your Jinja templates  
-   -> The focus is on how and why you'd perform database operations within view functions in a Flask web application  
+-> introduction  
+   -> this lesson explores how to execute sqlalchemy queries within view functions in flask  
+   -> you'll learn how to apply database querying knowledge to dynamically update content in your jinja templates  
+   -> the focus is on how and why you'd perform database operations within view functions in a flask web application  
 
--> Database Example  
-   -> Web applications often rely on querying a backend database to manage and display content to users  
-   -> For example, on a platform like X (formerly Twitter):  
-      -> A user might search for content (e.g., "sandals"), triggering a query to retrieve matching data from the database  
-      -> During registration, the data entered (like a username and password) is added to the database  
-      -> When the user logs in, their credentials are checked against the database to verify their identity  
-      -> Posting content (e.g., a tweet) results in inserting new data into the database, followed by additional queries for things like hashtags or mentions  
-   -> In your webapp, similar tasks are needed, such as:  
-      -> Registering users  
-      -> Verifying credentials  
-      -> Storing user-generated content  
-   -> All of these operations involve querying and manipulating the database, which you'll learn how to do with SQLAlchemy and Flask  
+-> database example  
+   -> web applications often rely on querying a backend database to manage and display content to users  
+   -> for example, on a platform like x (formerly twitter):  
+      -> a user might search for content (e.g., "sandals"), triggering a query to retrieve matching data from the database  
+      -> during registration, the data entered (like a username and password) is added to the database  
+      -> when the user logs in, their credentials are checked against the database to verify their identity  
+      -> posting content (e.g., a tweet) results in inserting new data into the database, followed by additional queries for things like hashtags or mentions  
+   -> in your webapp, similar tasks are needed, such as:  
+      -> registering users  
+      -> verifying credentials  
+      -> storing user-generated content  
+   -> all of these operations involve querying and manipulating the database, which you'll learn how to do with sqlalchemy and flask  
 
--> Add Users From Index Page  
-   -> The `index` page demonstrates how to add users to the database via a form submission  
-   -> Upon submitting a name:  
-      -> The app checks if the username already exists in the database  
-      -> If the username exists, a session variable is updated to reflect that the user is known  
-      -> If the username doesn't exist, a new `User` object is created and added to the database  
-   -> The code handles both adding new users and recognising returning users  
-   -> Example Code:  
+-> add users from index page  
+   -> the `index` page demonstrates how to add users to the database via a form submission  
+   -> upon submitting a name:  
+      -> the app checks if the username already exists in the database  
+      -> if the username exists, a session variable is updated to reflect that the user is known  
+      -> if the username doesn't exist, a new `user` object is created and added to the database  
+   -> the code handles both adding new users and recognising returning users  
+   -> example code:  
      ```python  
      @app.route('/', methods=['GET', 'POST'])  
      def index():  
-         form = NameForm()  # Create form instance  
-         if form.validate_on_submit():  # Check if form is submitted and valid  
-             name_entered = form.name.data  # Capture entered name  
-             user = User.query.filter_by(username=name_entered).first()  # Check if user exists in database  
-             if user is None:  # If user doesn't exist, create a new one  
+         form = NameForm()  # create form instance  
+         if form.validate_on_submit():  # check if form is submitted and valid  
+             name_entered = form.name.data  # capture entered name  
+             user = User.query.filter_by(username=name_entered).first()  # check if user exists in database  
+             if user is None:  # if user doesn't exist, create a new one  
                  user = User(username=name_entered)  
-                 db.session.add(user)  # Add new user to the session  
-                 db.session.commit()  # Commit the transaction to the database  
-                 session['known'] = False  # Mark the user as unknown in session  
+                 db.session.add(user)  # add new user to the session  
+                 db.session.commit()  # commit the transaction to the database  
+                 session['known'] = False  # mark the user as unknown in session  
              else:  
-                 session['known'] = True  # If user exists, mark as known  
-             session['name'] = name_entered  # Store the entered name in session  
-             flash('Great! We hope you enjoy the community')  # Display a flash message  
-             form.name.data = ''  # Clear the form field  
-             return redirect(url_for('index'))  # Redirect back to the index page  
-         return render_template('index.html', form=form, name=session.get('name'), known=session.get('known', False))  # Render the template with session data  
+                 session['known'] = True  # if user exists, mark as known  
+             session['name'] = name_entered  # store the entered name in session  
+             flash('Great! we hope you enjoy the community')  # display a flash message  
+             form.name.data = ''  # clear the form field  
+             return redirect(url_for('index'))  # redirect back to the index page  
+         return render_template('index.html', form=form, name=session.get('name'), known=session.get('known', False))  # render the template with session data  
      ```  
-   -> In this example, when a user submits their name, the application checks the database for an existing user and updates the session accordingly  
+   -> in this example, when a user submits their name, the application checks the database for an existing user and updates the session accordingly  
 
--> Jinja Template With A Customised Greeting  
-   -> The Jinja template dynamically displays a personalised greeting based on whether the user is known or not  
-   -> If the user is new, they will be greeted with a message like "Nice to meet you!"  
-   -> If the user has visited before, they will see a message like "Enjoy your stay"  
-   -> The template integrates with the form, updating dynamically based on the session data  
-   -> Example Template:  
+-> jinja template with a customised greeting  
+   -> the jinja template dynamically displays a personalised greeting based on whether the user is known or not  
+   -> if the user is new, they will be greeted with a message like "nice to meet you!"  
+   -> if the user has visited before, they will see a message like "enjoy your stay"  
+   -> the template integrates with the form, updating dynamically based on the session data  
+   -> example template:  
      ```html  
      {% block page_content %}  
-     <h1>Welcome to Ragtime, {% if name %}{{name}}{% else %}Anonymous{% endif %}</h1>  <!-- Personalised greeting -->  
+     <h1>Welcome to ragtime, {% if name %}{{name}}{% else %}anonymous{% endif %}</h1>  <!-- personalised greeting -->  
      <div class="page-header">  
-         {% if not known %}  <!-- Check if the user is known or new -->  
-         <p>Mucho gusto! (Nice to meet you!)</p>  <!-- Greeting for new users -->  
+         {% if not known %}  <!-- check if the user is known or new -->  
+         <p>mucho gusto! (nice to meet you!)</p>  <!-- greeting for new users -->  
          {% else %}  
-         <p>Enjoy your stay</p>  <!-- Greeting for returning users -->  
+         <p>enjoy your stay</p>  <!-- greeting for returning users -->  
          {% endif %}  
      </div>  
-     {{ wtf.quick_form(form) }}  <!-- Render the form using Flask-WTF -->  
+     {{ wtf.quick_form(form) }}  <!-- render the form using flask-wtf -->  
      {% endblock page_content %}  
      ```  
-   -> This template displays a dynamic greeting based on the `name` and `known` values in the session, giving users a personalised experience  
+   -> this template displays a dynamic greeting based on the `name` and `known` values in the session, giving users a personalised experience  
 
--> Summary: How to Run a Flask SQLAlchemy Query in Jinja Template Views  
-   -> SQLAlchemy queries are performed within Flask view functions to interact with the database  
-   -> Jinja templates allow you to dynamically display content based on data from the database and session  
-   -> In this lesson, you learned how to:  
-      -> Perform database queries within a Flask view function  
-      -> Add and check for users in the database  
-      -> Use Flask sessions to store and display personalised information to users in Jinja templates  
-   -> This enables your web app to be data-driven and responsive to user interactions, providing a seamless experience from backend to frontend  
-
+-> summary: how to run a flask sqlalchemy query in jinja template views  
+   -> sqlalchemy queries are performed within flask view functions to interact with the database  
+   -> jinja templates allow you to dynamically display content based on data from the database and session  
+   -> in this lesson, you learned how to:  
+      -> perform database queries within a flask view function  
+      -> add and check for users in the database  
+      -> use flask sessions to store and display personalised information to users in jinja templates  
+   -> this enables your web app to be data-driven and responsive to user interactions, providing a seamless experience from backend to frontend  
